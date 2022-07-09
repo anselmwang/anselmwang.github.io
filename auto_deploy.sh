@@ -1,9 +1,9 @@
 python copy.py
-status=$(git status --short)
+status=$(git status docs --short)
 echo $status
 if [[ status != '' ]]; then
   echo 'changed'
-  git add .
+  git add docs/.
   git commit -m "auto commit at `date`"
   git push
 else
