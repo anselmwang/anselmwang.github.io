@@ -7,6 +7,11 @@
             "label": "preview",
             "type": "shell",
             "command": "docsify serve docs"
-        }
+        },
+        {
+            "label": "monitor",
+            "type": "shell",
+            "command": "while true; do sh auto_deploy.sh; sleep 2s; done"
+        },
     ]
 }
