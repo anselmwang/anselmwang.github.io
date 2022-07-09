@@ -1,5 +1,4 @@
 * publish
-  * [P.test](/publish/P.test.md)
   * [P.《曼昆经济学》“第23章 一国收入的衡量” 读书笔记](/publish/P.%E3%80%8A%E6%9B%BC%E6%98%86%E7%BB%8F%E6%B5%8E%E5%AD%A6%E3%80%8B%E2%80%9C%E7%AC%AC23%E7%AB%A0%20%E4%B8%80%E5%9B%BD%E6%94%B6%E5%85%A5%E7%9A%84%E8%A1%A1%E9%87%8F%E2%80%9D%20%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.md)
   * [P.《绿山墙的安妮》简介](/publish/P.%E3%80%8A%E7%BB%BF%E5%B1%B1%E5%A2%99%E7%9A%84%E5%AE%89%E5%A6%AE%E3%80%8B%E7%AE%80%E4%BB%8B.md)
   * [P.为什么恒星日不等于地球日？](/publish/P.%E4%B8%BA%E4%BB%80%E4%B9%88%E6%81%92%E6%98%9F%E6%97%A5%E4%B8%8D%E7%AD%89%E4%BA%8E%E5%9C%B0%E7%90%83%E6%97%A5%EF%BC%9F.md)
