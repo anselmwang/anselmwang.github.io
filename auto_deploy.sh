@@ -1,6 +1,6 @@
 python copy.py
-status=$(git diff --short)
-echo status
+status=$(git status --short)
+echo $status
 if [[ status != '' ]]; then
   echo 'changed'
   git add .
