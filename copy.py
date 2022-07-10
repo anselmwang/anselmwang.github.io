@@ -35,7 +35,7 @@ def generate_sidebar_lines(side_bar, ancestor_names:list):
 
 ATTACHMENT_LINK_RE = re.compile(r"!\[\[(.*?)\]\]")
 WIKI_LINK_RE = re.compile(r"\[\[(.*?)\]\]")
-def process_md_content(content, doc_root, ancestor_names):
+def process_md_content(file_name, content, doc_root, ancestor_names):
     def attachment_callback(m):
         attachment_path = m.group(1)
         src_path = os.path.join(OBSIDIAN_NOTE_DIR, attachment_path)
@@ -50,18 +50,20 @@ def process_md_content(content, doc_root, ancestor_names):
     content = ATTACHMENT_LINK_RE.sub(attachment_callback, content)
     # I have confirmed for wiki link, no need to url.parse.quote
     content = WIKI_LINK_RE.sub(r"[[/\1]]", content)
+    content = f"# {get_title(file_name)}\n" + content
     return content
 
 def copy_all_md_files(doc_root, side_bar, ancestor_names: list):
     for k in sorted(side_bar.keys()):
         v = side_bar[k]
         if v is None:
-            src_path = "/".join(ancestor_names) + f"/{k}"
+            file_name = k
+            src_path = "/".join(ancestor_names) + f"/{file_name}"
             tgt_path = os.path.join(doc_root, src_path)
             os.makedirs(os.path.split(tgt_path)[0], exist_ok=True)
             with open(src_path, encoding="utf-8") as src_f, \
                 open(tgt_path, "w", encoding="utf-8") as tgt_f:
-                content = process_md_content(src_f.read(), doc_root, ancestor_names)
+                content = process_md_content(file_name, src_f.read(), doc_root, ancestor_names)
                 tgt_f.write(content)
         else:
             copy_all_md_files(doc_root, v, ancestor_names + [k])
@@ -84,9 +86,9 @@ for root, dirs, files in os.walk("."):
     files.sort()
     for file_name in files:
         if need_publish(file_name):
-            splitted_path = os.path.split(root)
+            splitted_path = os.path.normpath(root).split(os.path.sep)
             cur_side_bar = side_bar
-            for seg in splitted_path[1:]: # ignore "."
+            for seg in splitted_path:
                 if seg not in cur_side_bar:
                     cur_side_bar[seg] = {}
                 cur_side_bar = cur_side_bar[seg]
