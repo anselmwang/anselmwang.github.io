@@ -5,6 +5,7 @@ from urllib.parse import quote
 
 OBSIDIAN_NOTE_DIR = os.environ["OBSIDIAN_NOTE_DIR"]
 GIT_NOTE_ROOT = os.environ["GIT_NOTE_ROOT"]
+from html import escape
 
 def need_publish(file_name):
     return file_name.startswith("P.") and file_name.endswith(".md")
@@ -46,10 +47,20 @@ def process_md_content(file_name, content, doc_root, ancestor_names):
         new_attachment_path = "/".join(
             quote(seg) for seg in new_attachment_path.split("/"))
         return f"![]({new_attachment_path})"
+    
+    def wiki_link_callback(m):
+        wiki_link_path: str = m.group(1)
+        link_title = escape(wiki_link_path)
+
+        splitted_path = wiki_link_path.rsplit("#", 1)
+        new_wiki_link_path = quote("/" + splitted_path[0])
+        if len(splitted_path) == 2:
+            new_wiki_link_path += f"?id={quote(splitted_path[1])}"
+        return f"[{link_title}]({new_wiki_link_path})"
 
     content = ATTACHMENT_LINK_RE.sub(attachment_callback, content)
     # I have confirmed for wiki link, no need to url.parse.quote
-    content = WIKI_LINK_RE.sub(r"[[/\1]]", content)
+    content = WIKI_LINK_RE.sub(wiki_link_callback, content)
     content = f"# {get_title(file_name)}\n" + content
     return content
 
